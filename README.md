@@ -1,2 +1,2 @@
 # Flx
-Rewrite emacs-flx in Swift
+> Rewrite emacs-flx in Swift
