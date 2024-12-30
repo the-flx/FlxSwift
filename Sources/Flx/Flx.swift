@@ -239,6 +239,81 @@ class Flx {
         return result
     }
 
+    static func findBestMatch(
+        imatch: inout [Result], strInfo: [Int: [Int]], heatmap: [Int], greaterThan: Int?,
+        query: String, queryLen: Int, qIndex: Int, matchCache: inout [Int: [Result]]
+    ) {
+        let greaterNum = (greaterThan != nil) ? greaterThan! : 0
+        let hashKey = qIndex + (greaterNum * queryLen)
+        let hashVal = Util.dictGet(result: matchCache, key: hashKey)
+
+        if hashVal != nil {
+            imatch.removeAll()
+            for val in hashVal! {
+                imatch.append(val)
+            }
+        } else {
+            let uchar = Util.charAt(str: query, index: qIndex)!
+            let ichar = Util.char2Int(ch: uchar)
+            let sortedList = Util.dictGet(result: strInfo, key: ichar)
+            let indexes = biggerSublist(sortedList: sortedList, val: greaterThan)
+            var tempScore: Int
+            var bestScore = Int.min
+
+            if qIndex >= queryLen - 1 {
+                // At the tail end of the recursion, simply generate all possible
+                // matches with their scores and return the list to parent.
+                for index in indexes! {
+                    var indices: [Int] = []
+                    indices.append(index)
+                    imatch.append(Result.init(indices: indices, score: heatmap[index], tail: 0))
+                }
+            } else {
+                for index in indexes! {
+                    var elemGroup: [Result] = []
+
+                    findBestMatch(
+                        imatch: &elemGroup, strInfo: strInfo, heatmap: heatmap, greaterThan: index,
+                        query: query, queryLen: queryLen, qIndex: qIndex + 1,
+                        matchCache: &matchCache)
+
+                    for elem in elemGroup {
+                        let caar = elem.indices[0]
+                        let cadr = elem.score
+                        let cddr = elem.tail
+
+                        if (caar - 1) == index {
+                            tempScore = cadr + heatmap[index] + (min(cddr, 3) * 15) + 60
+                        } else {
+                            tempScore = cadr + heatmap[index]
+                        }
+
+                        // We only care about the optimal match, so only forward the match
+                        // with the best score to parent
+                        if tempScore > bestScore {
+                            bestScore = tempScore
+
+                            imatch.removeAll()
+
+                            var indices: [Int] = elem.indices
+                            indices.insert(index, at: 0)
+                            var tail = 0
+                            if (caar - 1) == index {
+                                tail = cddr + 1
+                            }
+                            imatch.append(
+                                Result.init(indices: indices, score: tempScore, tail: tail))
+                        }
+                    }
+                }
+            }
+
+            // Calls are cached to avoid exponential time complexity
+            let imatchCloned = imatch
+            Util.dictSet(result: &matchCache, key: hashKey, val: imatchCloned)
+        }
+    }
+
     public class Result {
         var indices: [Int]
         var score: Int
@@ -257,7 +332,31 @@ class Flx {
             return nil
         }
 
-        // ..
-        return nil
+        let strInfo = getHashForString(str: str)
+        let heatmap = getHeatmapStr(str: str, groupSeparator: nil)
+
+        let queryLen = query.count
+        let fullMatchBoost = (1 < queryLen) && (queryLen < 5)
+
+        var matchCache: [Int: [Result]] = [:]
+        var optimalMatch: [Result] = []
+
+        findBestMatch(
+            imatch: &optimalMatch, strInfo: strInfo, heatmap: heatmap, greaterThan: nil,
+            query: query,
+            queryLen: queryLen, qIndex: 0, matchCache: &matchCache)
+
+        if optimalMatch.count == 0 {
+            return nil
+        }
+
+        let result: Result = optimalMatch[0]
+        let caar = result.indices.count
+
+        if fullMatchBoost && caar == str.count {
+            result.score += 10000
+        }
+
+        return result
     }
 }

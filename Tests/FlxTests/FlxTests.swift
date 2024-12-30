@@ -64,3 +64,24 @@ import Testing
         Flx.biggerSublist(sortedList: [1, 2, 3, 4], val: 2)
             == [3, 4])
 }
+
+@Test func testScore1() async throws {
+    let result = Flx.score(str: "switch-to-buffer", query: "stb")
+    #expect(result?.indices == [0, 7, 10])
+    #expect(result?.score == 237)
+    #expect(result?.tail == 0)
+}
+
+@Test func testScore2() async throws {
+    let result = Flx.score(str: "TestSomeFunctionExterme", query: "met")
+    #expect(result?.indices == [6, 16, 18])
+    #expect(result?.score == 57)
+    #expect(result?.tail == 0)
+}
+
+@Test func testScore3() async throws {
+    let result = Flx.score(str: "MetaX_Version", query: "met")
+    #expect(result?.indices == [0, 1, 2])
+    #expect(result?.score == 211)
+    #expect(result?.tail == 2)
+}
