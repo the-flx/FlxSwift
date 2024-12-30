@@ -63,8 +63,8 @@ class Flx {
             if isCapital(ch: ch) {
                 Util.dictInsert(result: &result, key: Util.char2Int(ch: ch), val: index)
 
-                let upper = ch?.uppercased()
-                downCh = Util.charAt(str: upper, index: 0)
+                let lower = ch?.lowercased()
+                downCh = Util.charAt(str: lower, index: 0)
             } else {
                 downCh = ch
             }
@@ -239,6 +239,8 @@ class Flx {
         return result
     }
 
+    /// Recursively compute the best match for a string, passed as `strInfo` and
+    /// `heatmap`, according to `query`.
     static func findBestMatch(
         imatch: inout [Result], strInfo: [Int: [Int]], heatmap: [Int], greaterThan: Int?,
         query: String, queryLen: Int, qIndex: Int, matchCache: inout [Int: [Result]]
