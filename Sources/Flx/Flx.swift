@@ -47,34 +47,6 @@ class Flx {
         }
     }
 
-    /// Return the character object in `str` by `index`.
-    static func charAt(str: String?, index: Int) -> Character? {
-        if str == nil {
-            return nil
-        }
-        let _str = str!
-        if let strIndex = _str.index(_str.startIndex, offsetBy: index, limitedBy: _str.endIndex) {
-            return _str[strIndex]
-        }
-        return nil
-    }
-
-    static func char2Int(ch: Character?) -> Int? {
-        return Int(String(ch!.asciiValue!))
-    }
-
-    static func dictInsert(result: inout [Int: [Int]], key: Int?, val: Int?) {
-        if key == nil || val == nil {
-            return
-        }
-
-        if result[key!] == nil {
-            result[key!] = []
-        }
-
-        result[key!]?.insert(val!, at: 0)
-    }
-
     /// Return hash-table for string where keys are characters.
     /// Value is a sorted list of indexes for character occurrences.
     static func getHashForString(str: String) -> [Int: [Int]] {
@@ -86,18 +58,18 @@ class Flx {
         var downCh: Character?
 
         while 0 <= index {
-            let ch = charAt(str: str, index: index)
+            let ch = Util.charAt(str: str, index: index)
 
             if isCapital(ch: ch) {
-                dictInsert(result: &result, key: char2Int(ch: ch), val: index)
+                Util.dictInsert(result: &result, key: Util.char2Int(ch: ch), val: index)
 
                 let upper = ch?.uppercased()
-                downCh = charAt(str: upper, index: 0)
+                downCh = Util.charAt(str: upper, index: 0)
             } else {
                 downCh = ch
             }
 
-            dictInsert(result: &result, key: char2Int(ch: downCh), val: index)
+            Util.dictInsert(result: &result, key: Util.char2Int(ch: downCh), val: index)
 
             index -= 1
         }
