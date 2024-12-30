@@ -38,3 +38,29 @@ import Testing
             115: [0],
         ])
 }
+
+@Test func testGetHeatmapStr1() async throws {
+    #expect(
+        Flx.getHeatmapStr(str: "switch-to-buffer", groupSeparator: nil) == [
+            82, -4, -5, -6, -7, -8, -9, 79, -7, -8, 76, -10, -11, -12, -13, -13,
+        ])
+}
+
+@Test func testGetHeatmapStr2() async throws {
+    #expect(
+        Flx.getHeatmapStr(str: "MetaX_Version", groupSeparator: nil) == [
+            83, -3, -4, -5, 80, -6, 77, -9, -10, -11, -12, -13, -13,
+        ])
+}
+
+@Test func testBiggerSublist1() async throws {
+    #expect(
+        Flx.biggerSublist(sortedList: [1, 2, 3, 4], val: nil)
+            == [1, 2, 3, 4])
+}
+
+@Test func testBiggerSublist2() async throws {
+    #expect(
+        Flx.biggerSublist(sortedList: [1, 2, 3, 4], val: 2)
+            == [3, 4])
+}
