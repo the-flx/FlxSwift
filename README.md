@@ -19,6 +19,10 @@ $ swift build
 $ swift test
 ```
 
+## 🔗 Links
+
+- [Creating and Publishing Swift Packages (Swift Package Manager)](https://www.youtube.com/watch?v=4Rxuc4BcW8o&ab_channel=azamsharp)
+
 ## ⚜ License
 
 Copyright 2024-present Jen-Chieh Shen.
