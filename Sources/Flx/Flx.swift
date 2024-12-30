@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-class Flx {
+public class Flx {
     static let wordSeparators: [Character] = [" ", "-", "_", ":", ".", "/", "\\"]
 
     static let defaultScore: Int = -35
