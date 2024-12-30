@@ -8,7 +8,11 @@
 
 ## 🔨 Usage
 
-WIP.
+```swift
+import Flx
+
+print(Flx.score(str: "switch-to-buffer", query: "stb").score)  // 237
+```
 
 ## 🛠️ Development
 
