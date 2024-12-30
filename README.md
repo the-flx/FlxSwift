@@ -12,7 +12,12 @@ WIP.
 
 ## 🛠️ Development
 
-WIP.
+To run tests:
+
+```sh
+$ swift build
+$ swift test
+```
 
 ## ⚜ License
 
