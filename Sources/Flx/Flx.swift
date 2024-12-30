@@ -317,9 +317,9 @@ public class Flx {
     }
 
     public class Result {
-        var indices: [Int]
-        var score: Int
-        var tail: Int
+        public var indices: [Int]
+        public var score: Int
+        public var tail: Int
 
         init(indices: [Int], score: Int, tail: Int) {
             self.indices = indices
