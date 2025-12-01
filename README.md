@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Swift Version](https://img.shields.io/badge/Swift-1.115.1+-F05138.svg?logo=swift&logoColor=white)](https://www.swift.org/)
 [![Release](https://img.shields.io/github/tag/the-flx/FlxSwift.svg?label=release&logo=github)](https://github.com/the-flx/FlxSwift/releases/latest)
 
 # Flx
